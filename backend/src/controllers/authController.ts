@@ -18,9 +18,9 @@ const registerUser = async (req: Request, res: Response) => {
   });
 
   if (user) {
-    generateToken(res, user._id); //Getting an error here - Not sure if it's because the database isn't set up yet or something else
+    generateToken(res, user.id); //Getting an error here - Not sure if it's because the database isn't set up yet or something else
     res.status(201).json({
-      id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
     });
@@ -34,9 +34,9 @@ const authenticateUser = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.comparePassword(password))) {
-    generateToken(res, user._id); //Error here as well, same reason
+    generateToken(res, user.id); //Error here as well, same reason
     res.status(201).json({
-      id: user._id,
+      id: user.id,
       name: user.name,
       email: user.email,
     });

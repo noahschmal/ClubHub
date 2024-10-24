@@ -20,7 +20,7 @@ const authenticate = asyncHandler(
         throw new AuthenticationError("UserId not found");
       }
 
-      const user = await User.findById(decoded.userId, "_id name email");
+      const user = await User.findById(decoded.userId, "id name email");
 
       if (!user) {
         throw new AuthenticationError("User not found");
