@@ -6,10 +6,6 @@ type Club = {
   description: string;
 };
 
-type NewClub = Club & {
-  name: string;
-};
-
 type ClubBasicInfo = {
   id: string;
   name: string;
@@ -39,13 +35,16 @@ const initialState: AuthApiState = {
 
 
 export const createClub = createAsyncThunk("createClub", async (data: Club) => {
-  const response = await axiosInstance.post("/createClub", data);
-  const resData = response.data;
-
-  localStorage.setItem("clubInfo", JSON.stringify(resData));
-
-  return resData;
-});
+    const response = await axiosInstance.post(
+      "/createClub",
+      data
+    );
+    const resData = response.data;
+  
+    localStorage.setItem("clubInfo", JSON.stringify(resData));
+  
+    return resData;
+  });
 
 export const getClub = createAsyncThunk(
   "clubs/profile",
