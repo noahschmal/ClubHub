@@ -18,7 +18,7 @@ const registerUser = async (req: Request, res: Response) => {
   });
 
   if (user) {
-    generateToken(res, user.id); //Getting an error here - Not sure if it's because the database isn't set up yet or something else
+    generateToken(res, user.id); 
     res.status(201).json({
       _id: user.id,
       name: user.name,
