@@ -7,6 +7,7 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRouter";
+import clubRouter from "./routes/clubRouter";
 import { authenticate } from "./middleware/authMiddleware";
 import { errorHandler } from "./middleware/errorMiddleware";
 
@@ -48,6 +49,7 @@ app.listen(port, () => {
 
 app.use(authRouter);
 app.use("/users", authenticate, userRouter);
+app.use(clubRouter);
 
 app.use(errorHandler);
 
