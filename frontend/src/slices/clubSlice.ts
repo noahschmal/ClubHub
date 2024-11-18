@@ -14,8 +14,8 @@ type ClubBasicInfo = {
 };
 
 type ClubProfileData = {
+    name: string;
     description: string;
-  email: string;
 };
 
 type AuthApiState = {
@@ -50,8 +50,6 @@ export const createClub = createAsyncThunk("createClub", async (data: Club) => {
 export const getClub = createAsyncThunk(
   "clubs/profile",
   async (clubId: string) => {
-    console.log(clubId)
-
     const response = await axiosInstance.get(
       `/club/${clubId}`
     );

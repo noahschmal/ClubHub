@@ -22,9 +22,7 @@ const Home = () => {
   }, [basicUserInfo]);
 
   useEffect(() => {
-    if (clubs) {
-      dispatch(getClub("673ad18d4f97e62a4a7b1ebc"));
-    }
+    dispatch(getClub("673ad18d4f97e62a4a7b1ebc"));
   }, [clubs]);
 
   const handleLogout = async () => {
@@ -37,7 +35,7 @@ const Home = () => {
   };
 
   const handleClubs = async () => {
-    console.log(clubs?.id)
+    console.log(clubs?.name)
   };
 
   return (
