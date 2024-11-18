@@ -31,7 +31,11 @@ const createClub = async (req: Request, res: Response) => {
 };
 
 const getClub = async (req: Request, res: Response) => {
+<<<<<<< HEAD
   const clubId = req.params.id;
+=======
+  const clubId = $ club (req.params.id);
+>>>>>>> dfeb10b (Debugging)
   const club = await Club.findById(clubId, "name description");
 
   if (!club) {
