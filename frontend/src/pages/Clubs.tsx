@@ -11,14 +11,29 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../hooks/redux-hooks";
 import { createClub } from "../slices/clubSlice";
+import React, { useEffect } from "react";
+import { getUser } from "../slices/authSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+
 
 const CreateClub = () => {
   const dispatch = useAppDispatch();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [userId, setId] = useState("")
+
+
+  const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
+  const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
+
+
+  useEffect(() => {
+    if (basicUserInfo) {
+      dispatch(getUser(basicUserInfo.id));
+    }
+  }, [basicUserInfo]);
 
   const handleCreateClub = async () => {
     // This is only a basic validation of inputs. Improve this as needed.
@@ -27,6 +42,7 @@ const CreateClub = () => {
         await dispatch(
           createClub({
             name,
+            admin: basicUserInfo?.id,
             description,
           })
         ).unwrap();
