@@ -47,11 +47,10 @@ export const createClub = createAsyncThunk("createClub", async (data: Club) => {
     return resData;
   });
 
-export const getClub = createAsyncThunk(
-  "clubs/profile",
-  async (clubId: string) => {
-    const response = await axiosInstance.get(
-      `/club/${clubId}`
+export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) => {
+    const response = await axiosInstance.post(
+      `/club`,
+      clubId
     );
     return response.data;
   }
