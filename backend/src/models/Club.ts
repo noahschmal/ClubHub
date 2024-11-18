@@ -1,48 +1,39 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import User from "./User";
+
 
 export interface IClub extends Document {
 	_id: string;
 	name: string;
-	members: typeof User[];
-	admins: typeof User[];
+	members: Array< string >;
+	admins: Array< string >;
 	description: string;
 
 }
 
 const clubSchema = new Schema<IClub>({
-	_id: {
-		type: String,
-		required: false,
-	},
 	name: {
 		type: String,
 		required: true,
 		unique: true,
 	},
-	members: {
-		type: typeof User[],
+	members: [{
+		type: String,
 		required: false,
-	},
-	admins: {
-		type: typeof User[],
+	}],
+	admins: [{
+		type: String,
 		required: true,
-	},
+	}],
 	description: {
 		type: String,
 		required: true,
 	}
 });
 
-const Club = mongoose.model("Club", userSchema);
+const Club = mongoose.model("Club", clubSchema);
 
-const MakeClub = async (req: Request, res: Response) => {
-	name,
-    	adminId,
-    	description,
- 
-}
+
 
 
 export default Club;

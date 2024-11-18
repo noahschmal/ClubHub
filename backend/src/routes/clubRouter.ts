@@ -7,7 +7,8 @@ import {
 
 const router = express.Router();
 
-router.post("/createClub", registerUser);
+router.post("/createClub", createClub);
 router.post("/:id", getClub);
 router.post("/getClubs", getClubs);
+
 export default router;

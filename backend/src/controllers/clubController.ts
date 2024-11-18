@@ -31,8 +31,8 @@ const createClub = async (req: Request, res: Response) => {
 };
 
 const getClub = async (req: Request, res: Response) => {
-  const clubId = req.Club?._id;
-  const club = await Club.findById(cludId, "name email");
+  const clubId = req.user?._id;
+  const club = await Club.findById(clubId, "name email");
 
   if (!club) {
     res.status(400);
@@ -42,13 +42,12 @@ const getClub = async (req: Request, res: Response) => {
 };
 
 const getClubs = async (req: Request, res: Response) => {
-  const clubs = await Club.aggregate();
-
+  const clubs = await Club.find();
+ 
   if (!clubs) {
     res.status(400);
   }
-  
-  res.status(200).json(clubs.pipeline);
+ res.status(200).json(clubs);
 }
 
 
