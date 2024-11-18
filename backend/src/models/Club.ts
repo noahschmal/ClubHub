@@ -37,6 +37,14 @@ const clubSchema = new Schema<IClub>({
 
 const Club = mongoose.model("Club", userSchema);
 
+const MakeClub = async (req: Request, res: Response) => {
+	name,
+    	adminId,
+    	description,
+ 
+}
+
+
 export default Club;
 
 

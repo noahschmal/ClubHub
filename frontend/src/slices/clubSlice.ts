@@ -3,6 +3,7 @@ import axiosInstance from "../api/axiosInstance";
 
 type Club = {
   name: string;
+  admin: string; //users id
   description: string;
 };
 
