@@ -31,6 +31,12 @@ const Home = () => {
       <h1>Home</h1>
       <h4>Name: {userProfileInfo?.name}</h4>
       <h4>Email: {userProfileInfo?.email}</h4>
+      
+      <input type="text"></input>
+
+      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
+        Create Club
+      </Button>
       <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
         Logout
       </Button>
