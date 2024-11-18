@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import User from "./User";
 
+
 export interface IClub extends Document {
 	_id: string;
 	name: string;
@@ -31,6 +32,7 @@ const clubSchema = new Schema<IClub>({
 	},
 	description: {
 		type: String,
+
 		required: true,
 	}
 });
@@ -46,5 +48,3 @@ const MakeClub = async (req: Request, res: Response) => {
 
 
 export default Club;
-
-
