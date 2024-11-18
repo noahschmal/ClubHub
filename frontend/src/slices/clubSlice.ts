@@ -50,6 +50,8 @@ export const createClub = createAsyncThunk("createClub", async (data: Club) => {
 export const getClub = createAsyncThunk(
   "clubs/profile",
   async (clubId: string) => {
+    console.log(clubId)
+
     const response = await axiosInstance.get(
       `/club/${clubId}`
     );
@@ -58,7 +60,7 @@ export const getClub = createAsyncThunk(
 );
 
 export const getClubs = createAsyncThunk(
-  "clubs/profile",
+  "/clubs",
   async () => {
     const response = await axiosInstance.get(
       `/getClubs`

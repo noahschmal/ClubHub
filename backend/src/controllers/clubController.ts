@@ -26,13 +26,13 @@ const createClub = async (req: Request, res: Response) => {
       description: club.description,
     });
   } else {
-    res.status(400).json({ message: "An error occurred in creating the user" });
+    res.status(400).json({ message: "An error occurred in creating the clubs" });
   }
 };
 
 const getClub = async (req: Request, res: Response) => {
-  const clubId = req.user?._id;
-  const club = await Club.findById(clubId, "name email");
+  const clubId = req.params.id;
+  const club = await Club.findById(clubId, "name description");
 
   if (!club) {
     res.status(400);
