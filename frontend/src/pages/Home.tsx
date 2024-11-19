@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { getClub } from "../slices/clubSlice";
+import { getClubs } from "../slices/clubSlice";
 
 
 const Home = () => {
@@ -22,9 +22,9 @@ const Home = () => {
   }, [basicUserInfo]);
 
   useEffect(() => {
-    dispatch(getClub("673ad18d4f97e62a4a7b1ebc"));
+    dispatch(getClubs());
   }, [clubs]);
-
+  console.log(basicUserInfo)
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
