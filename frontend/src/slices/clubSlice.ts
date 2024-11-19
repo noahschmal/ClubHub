@@ -57,12 +57,12 @@ export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) 
   }
 );
 
-export const getClubs = createAsyncThunk(
-  "/clubs",
-  async () => {
-    const response = await axiosInstance.get(
+export const getClubs = createAsyncThunk("getClubs", async () => {
+    const response = await axiosInstance.post(
       `/getClubs`
     );
+    
+    console.log(response.data)
     return response.data;
   }
 );
