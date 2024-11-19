@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRouter";
 import clubRouter from "./routes/clubRouter";
+import eventRouter from "./routes/eventRouter";
 import { authenticate } from "./middleware/authMiddleware";
 import { errorHandler } from "./middleware/errorMiddleware";
 
