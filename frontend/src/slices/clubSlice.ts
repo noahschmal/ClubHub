@@ -54,7 +54,7 @@ export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) 
       {id: clubId}
     );
 
-    console.log(response.data)
+    //console.log(response.data)
     return response.data;
   }
 );
@@ -65,7 +65,7 @@ export const getClubs = createAsyncThunk("getClubs", async () => {
     );
     
     const retdata = response.data;
-    console.log(retdata);
+    //console.log(retdata);
     return retdata;
   }
 );

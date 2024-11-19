@@ -14,8 +14,10 @@ const ClubList = () => {
     dispatch(getClubs());
   }, [basicClubInfo]);
 
-  console.log(basicClubInfo);
+  //const testing = getClubs()
 
+  //console.log(testing);
+  console.log(basicClubInfo)
   
 
   const handleClubs = async () => {
