@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 router.post("/createClub", createClub);
-router.post("/club/:id", getClub);
+router.post("/getClub", getClub);
 router.post("/getClubs", getClubs);
 
 export default router;

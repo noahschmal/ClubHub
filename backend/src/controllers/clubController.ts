@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Club from "../models/Club";
 import User from "../models/User";
 import { generateToken, clearToken } from "../utils/auth";
+var bodyParser = require('body-parser');
 
 const createClub = async (req: Request, res: Response) => {
   const { name, admin, description } = req.body;
@@ -26,18 +27,15 @@ const createClub = async (req: Request, res: Response) => {
       description: club.description,
     });
   } else {
-    res.status(400).json({ message: "An error occurred in creating the clubs" });
+    res.status(400).json({ message: "An error occurred in creating the user" });
   }
 };
 
 const getClub = async (req: Request, res: Response) => {
-<<<<<<< HEAD
-  const clubId = req.params.id;
-=======
-  const clubId = $ club (req.params.id);
->>>>>>> dfeb10b (Debugging)
+  const clubId = req.body.id;
+  console.log(clubId);
   const club = await Club.findById(clubId, "name description");
-
+  console.log(club);
   if (!club) {
     res.status(400);
   }
