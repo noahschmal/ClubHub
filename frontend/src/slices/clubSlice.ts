@@ -25,6 +25,7 @@ type AuthApiState = {
   error: string | null;
 };
 
+
 const initialState: AuthApiState = {
   basicClubInfo: localStorage.getItem("clubInfo")
     ? JSON.parse(localStorage.getItem("clubInfo") as string)
@@ -49,8 +50,8 @@ export const createClub = createAsyncThunk("createClub", async (data: Club) => {
 
 export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) => {
     const response = await axiosInstance.post(
-      `/club`,
-      clubId
+      `/getClub`,
+      {id: clubId}
     );
     return response.data;
   }
