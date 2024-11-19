@@ -1,50 +1,34 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import React, { useEffect } from "react";
+import { getClubs } from "../slices/clubSlice";
+import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import { Button } from "@mui/material";
 
-export default function IsCellEditableGrid() {
+
+const ClubList = () => {
+
+  const dispatch = useAppDispatch();
+
+  const basicClubInfo = useAppSelector((state) => state.club.basicClubInfo);
+  
+  useEffect(() => {
+    dispatch(getClubs());
+  }, [basicClubInfo]);
+
+  console.log(basicClubInfo);
+
+  
+
+  const handleClubs = async () => {
+    console.log(basicClubInfo)
+  };
+
   return (
-    <Box
-      sx={(theme) => ({
-        height: 400,
-        width: '100%', '& .MuiDataGrid-cell--editable': {
-          bgcolor: 'rgb(217 243 190)', ...theme.applyStyles('dark', { bgcolor: '#376331', }),
-        },
-      })}
-    >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        isCellEditable={(params) => params.id === 1}
-      />
-    </Box>
+    <>
+      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
+        Get Club
+      </Button>
+    </>
   );
 }
 
-const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Name', width: 180, editable: true },
-  { field: 'description', headerName: 'Description', width: 180, editable: true },
-
-  {
-    field: 'members',
-    headerName: 'Members',
-    width: 240,
-    editable: true,
-  },
- 
-];
-
-const rows: GridRowsProp = [
-  {
-    id: 1,
-    name: "Club 1",
-    description: "Club 1 description",
-    members: "you",
-  },
-  {
-    id: 2,
-    name: "Club 2",
-    description: "Club 2 description",
-    members: "not you :(",
-  },
-];
+export default ClubList;

@@ -24,7 +24,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getClubs());
   }, [clubs]);
-
+  console.log(basicUserInfo)
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
