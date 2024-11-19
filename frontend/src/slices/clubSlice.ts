@@ -14,8 +14,8 @@ type ClubBasicInfo = {
 };
 
 type ClubProfileData = {
+    name: string;
     description: string;
-  email: string;
 };
 
 type AuthApiState = {
@@ -24,6 +24,7 @@ type AuthApiState = {
   status: "idle" | "loading" | "failed";
   error: string | null;
 };
+
 
 const initialState: AuthApiState = {
   basicClubInfo: localStorage.getItem("clubInfo")
@@ -47,18 +48,17 @@ export const createClub = createAsyncThunk("createClub", async (data: Club) => {
     return resData;
   });
 
-export const getClub = createAsyncThunk(
-  "clubs/profile",
-  async (clubId: string) => {
-    const response = await axiosInstance.get(
-      `/club/${clubId}`
+export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) => {
+    const response = await axiosInstance.post(
+      `/getClub`,
+      {id: clubId}
     );
     return response.data;
   }
 );
 
 export const getClubs = createAsyncThunk(
-  "clubs/profile",
+  "/clubs",
   async () => {
     const response = await axiosInstance.get(
       `/getClubs`

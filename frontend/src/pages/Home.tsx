@@ -3,6 +3,8 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { getClub } from "../slices/clubSlice";
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -11,11 +13,17 @@ const Home = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
   const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
 
+  const clubs = useAppSelector((state) => state.club.basicClubInfo);
+
   useEffect(() => {
     if (basicUserInfo) {
       dispatch(getUser(basicUserInfo.id));
     }
   }, [basicUserInfo]);
+
+  useEffect(() => {
+    dispatch(getClub("673ad18d4f97e62a4a7b1ebc"));
+  }, [clubs]);
 
   const handleLogout = async () => {
     try {
@@ -26,6 +34,10 @@ const Home = () => {
     }
   };
 
+  const handleClubs = async () => {
+    console.log(clubs?.name)
+  };
+
   return (
     <>
       <h1>Home</h1>
@@ -34,8 +46,8 @@ const Home = () => {
       
       <input type="text"></input>
 
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
-        Create Club
+      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
+        Get Club
       </Button>
       <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
         Logout

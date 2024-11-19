@@ -22,11 +22,9 @@ const CreateClub = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [userId, setId] = useState("")
 
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-  const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
 
 
   useEffect(() => {
