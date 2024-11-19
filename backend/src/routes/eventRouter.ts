@@ -1,14 +1,14 @@
 import express from "express";
 import {
-	createClub,
-	getClub,
-	getClubs,
+	createEvent,
+	getEvent,
+	getEvents,
 } from "../controllers/clubController";
 
 const router = express.Router();
 
-router.post("/createClub", createClub);
-router.post("/:id", getClub);
-router.post("/getClubs", getClubs);
+router.post("/createEvent", createEvent);
+router.post("/:id", getEvent);
+router.post("/getEvents", getEvents);
 
 export default router;

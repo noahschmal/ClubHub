@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Email</title>
+</head>
+<body>
+  <h1>Send an Email</h1>
+  <button id="sendEmailBtn">Send Email</button>
+
+  <script>
+    document.getElementById('sendEmailBtn').addEventListener('click', function() {
+      fetch('/send-email', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          alert('Email sent successfully!');
+        })
+        .catch(error => {
+          alert('Error sending email: ' + error);
+        });
+    });
+  </script>
+</body>
+</html>
