@@ -51,11 +51,22 @@ export const getClub = createAsyncThunk(
   "clubs/profile",
   async (clubId: string) => {
     const response = await axiosInstance.get(
-      `/clubs/${clubId}`
+      `/club/${clubId}`
     );
     return response.data;
   }
 );
+
+export const getClubs = createAsyncThunk(
+  "clubs/profile",
+  async () => {
+    const response = await axiosInstance.get(
+      `/getClubs`
+    );
+    return response.data;
+  }
+);
+
 
 const clubSlice = createSlice({
     name: "club",
@@ -87,6 +98,18 @@ const clubSlice = createSlice({
           state.clubProfileData = action.payload;
         })
         .addCase(getClub.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message || "Get club data failed";
+        })
+        .addCase(getClubs.pending, (state) => {
+          state.status = "loading";
+          state.error = null;
+        })
+        .addCase(getClubs.fulfilled, (state, action) => {
+          state.status = "idle";
+          state.clubProfileData = action.payload;
+        })
+        .addCase(getClubs.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
         });
