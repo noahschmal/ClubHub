@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Button } from "@mui/material";
+import Box from '@mui/material/Box';
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";

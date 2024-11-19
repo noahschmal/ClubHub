@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Clubs from "./pages/Clubs";
+import ClubList from "./pages/ClubList";
 import DefaultLayout from "./layout/defaultLayout";
 import ProtectedLayout from "./layout/protectedLayout";
 
@@ -18,6 +19,7 @@ function App() {
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/clubs" element={<Clubs />} />
+          <Route path="/clublist" element={<ClubList />} />
         </Route>
       </Routes>
     </>
