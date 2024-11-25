@@ -1,4 +1,3 @@
-
 import { Request, Response } from "express";
 import User from "../models/User";
 import { generateToken, clearToken } from "../utils/auth";

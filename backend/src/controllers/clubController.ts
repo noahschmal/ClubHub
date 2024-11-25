@@ -9,7 +9,8 @@ const createClub = async (req: Request, res: Response) => {
   const clubNameTaken = await Club.findOne({ name });
   
   if (clubNameTaken) {
-    res.status(400).json({ message: "Clubs name was already taken" });
+    res.status(401).send({ error: "Clubs name was already taken" });
+    return;
   }
   let admins = [await User.findById(admin)];
   const club = await Club.create({

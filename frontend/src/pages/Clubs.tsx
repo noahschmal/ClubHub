@@ -16,6 +16,9 @@ import React, { useEffect } from "react";
 import { getUser } from "../slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 
+function hasProperty(obj: unknown, prop: string): boolean {
+  return typeof obj === 'object' && obj !== null && prop in obj;
+}
 
 const CreateClub = () => {
   const dispatch = useAppDispatch();
@@ -45,8 +48,11 @@ const CreateClub = () => {
           })
         ).unwrap();
       } catch (e) {
-        console.error(e);
+      	const response = (e as { code: any, config: any, message: any, name: any, request: any, response: any, status: any }).response;
+	const data = (response as { config: any, data: any, headers: any, request: any, status: any, statusText: any }).data;
+      	console.error(data);
       }
+      
     } else {
       // Show an error message.
     }
