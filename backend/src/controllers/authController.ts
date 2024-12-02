@@ -7,7 +7,7 @@ const registerUser = async (req: Request, res: Response) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400).json({ message: "The user already exists" });
+    res.status(401).json({ message: "The user already exists" });
   }
 
   const user = await User.create({
@@ -24,7 +24,7 @@ const registerUser = async (req: Request, res: Response) => {
       email: user.email,
     });
   } else {
-    res.status(400).json({ message: "An error occurred in creating the user" });
+    res.status(401).json({ message: "An error occurred in creating the user" });
   }
 };
 
@@ -42,6 +42,7 @@ const authenticateUser = async (req: Request, res: Response) => {
   } else {
     res.status(401).json({ message: "User not found / password incorrect" });
   }
+  
 };
 
 const logoutUser = (req: Request, res: Response) => {

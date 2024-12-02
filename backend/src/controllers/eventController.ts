@@ -4,7 +4,7 @@ import { generateToken, clearToken } from "../utils/auth";
 var bodyParser = require('body-parser');
 
 const createEvent = async (req: Request, res: Response) => {
-  const { name, clubId, description, time } = req.body;
+  const { name, eventId, description, time } = req.body;
   const eventNameTaken = await Event.findOne({ name });
   
   if (eventNameTaken) {
@@ -12,7 +12,7 @@ const createEvent = async (req: Request, res: Response) => {
   }
   const event = await Event.create({
     name,
-    clubId,
+    eventId,
     description,
     time,
   });
@@ -22,12 +22,12 @@ const createEvent = async (req: Request, res: Response) => {
     res.status(201).json({
       _id: event.id,
       name: event.name,
-      clubId: event.clubId,
+      eventId: event.eventId,
       description: event.description,
       time: event.time,
     });
   } else {
-    res.status(400).json({ message: "An error occurred in creating the user" });
+    res.status(400).json({ message: "An error occurred in creating the event" });
   }
 };
 
@@ -37,7 +37,7 @@ const getEvent = async (req: Request, res: Response) => {
   const event = await Event.findById(eventId, "name description");
   console.log(event);
   if (!event) {
-    res.status(400);
+    res.status(400).json({ message: "Event was not found" });
   }
 
   res.status(201).json(event);

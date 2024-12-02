@@ -38,7 +38,7 @@ const initialState: AuthApiState = {
 };
 
 export const login = createAsyncThunk("login", async (data: User, thunkAPI) => {
-  const response = await axiosInstance.post("/login", data).then(function(response) {
+  return await axiosInstance.post("/login", data).then(function(response) {
       const resData = response.data;
   
       localStorage.setItem("userInfo", JSON.stringify(resData));
@@ -95,18 +95,18 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(
-        login.fulfilled,
+	login.fulfilled,
         (state, action) => {
           state.status = "idle";
           state.basicUserInfo = action.payload;
+
         }
       )
       .addCase(login.rejected, (state, action) => {
           state.status = "failed";
 	  console.log(action);
           state.error = action.error.message || "CreateClub failed";
-        }
-      )
+        })
       .addCase(register.pending, (state) => {
         state.status = "loading";
         state.error = null;
