@@ -1,39 +1,56 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const path = require('path');
+require('dotenv').config();
+
 const app = express();
+const PORT = 3000;
 
-// Serve static files (HTML, CSS, etc.) from the public folder
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware to parse JSON
+app.use(express.json());
+app.use(express.static('public'));
 
-// Create a transporter for Gmail service (or use Ethereal for testing)
+// Simulated database for user events
+const userEvents = [
+  { id: 1, email: 'user1@example.com', event: 'Weekly Reminder', details: 'Your club meeting is on Friday at 6 PM.' },
+  { id: 2, email: 'user2@example.com', event: 'Payment Reminder', details: 'Your club dues are overdue. Please pay by next week.' },
+];
+
+// Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // You can replace this with other services like Ethereal
+  service: 'gmail',
   auth: {
-    user: 'your-email@gmail.com', // Your Gmail address
-    pass: 'your-email-password',  // Or use an App password (for Gmail)
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-// Email sending route
-app.post('/send-email', (req, res) => {
-  const mailOptions = {
-    from: 'your-email@gmail.com', // Sender address
-    to: 'recipient-email@example.com', // Receiver address
-    subject: 'Hello from Nodemailer!', // Subject line
-    text: 'This is a test email sent from the Node.js app.', // Plain text body
-    html: '<b>This is a test email sent from the Node.js app.</b>', // HTML body
-  };
+// Route to send email notifications for events
+app.post('/send-email', async (req, res) => {
+  try {
+    // Iterate over user events to send emails
+    for (const userEvent of userEvents) {
+      const { email, event, details } = userEvent;
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return res.status(500).json({ error: error.message });
+      // Send email for each event
+      const info = await transporter.sendMail({
+        from: `"ClubHub Notifications" <${process.env.EMAIL_USER}>`, // Sender address
+        to: email, // Recipient email
+        subject: event, // Event title as subject
+        text: details, // Plain text body
+        html: `<p>${details}</p>`, // HTML body
+      });
+
+      console.log(`Email sent to ${email}: %s`, info.messageId);
     }
-    res.status(200).json({ message: 'Email sent successfully', info: info.response });
-  });
+
+    res.status(200).send('Emails sent successfully!');
+  } catch (error) {
+    console.error('Error sending emails:', error);
+    res.status(500).send('Failed to send emails.');
+  }
 });
 
-// Start the server on port 3000
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
