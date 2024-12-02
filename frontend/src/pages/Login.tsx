@@ -31,7 +31,11 @@ const Login = () => {
           })
         ).unwrap();
       } catch (e) {
-        console.error(e);
+	console.log(e);
+	console.error(e);
+      //  const response = (e as { code: any, config: any, message: any, name: any, request: any, response: any, status: any }).response;
+      //  const data = (response as { config: any, data: any, headers: any, request: any, status: any, statusText: any }).data;
+      //	console.error(data);
       }
     } else {
       // Show an error message.

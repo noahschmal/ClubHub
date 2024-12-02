@@ -94,13 +94,6 @@ const clubSlice = createSlice({
         .addCase(createClub.rejected, (state, action) => {
           state.status = "failed";
 	  console.log(action);
-	  /*if (action.error.message == 'Request failed with status code 401') {
-            action.error.message = 'Error 401: Club name is taken';
-	  }
-	  else if (action.error.message == 'Request failed with status code 400') {
-            action.error.message = 'Error 400: Club failed to create\nUnexpected Behavior';
-	  }*/
-	  
           state.error = action.error.message || "CreateClub failed";
         })
         .addCase(getClub.pending, (state) => {
