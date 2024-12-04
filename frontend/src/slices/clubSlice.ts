@@ -13,6 +13,10 @@ type ClubBasicInfo = {
   description: string;
 };
 
+type Clubs = {
+  clubs: ClubBasicInfo[];
+}
+
 type ClubProfileData = {
     name: string;
     description: string;
@@ -21,6 +25,7 @@ type ClubProfileData = {
 type AuthApiState = {
   basicClubInfo?: ClubBasicInfo | null;
   clubProfileData?: ClubProfileData | null;
+  clubs?: Clubs | null;
   status: "idle" | "loading" | "failed";
   error: string | null;
 };
@@ -29,6 +34,9 @@ type AuthApiState = {
 const initialState: AuthApiState = {
   basicClubInfo: localStorage.getItem("clubInfo")
     ? JSON.parse(localStorage.getItem("clubInfo") as string)
+    : null,
+  clubs: localStorage.getItem("clubs")
+    ? JSON.parse(localStorage.getItem("clubs") as string)
     : null,
   clubProfileData: undefined,
   status: "idle",
@@ -65,8 +73,8 @@ export const getClubs = createAsyncThunk("getClubs", async () => {
     );
     
     const retdata = response.data;
-    //console.log(retdata);
-    return retdata;
+    localStorage.setItem("clubs", JSON.stringify(retdata));
+    return response.data;
   }
 );
 
@@ -108,10 +116,13 @@ const clubSlice = createSlice({
           state.status = "loading";
           state.error = null;
         })
-        .addCase(getClubs.fulfilled, (state, action) => {
+        .addCase(
+          getClubs.fulfilled,
+        (state, action: PayloadAction<Clubs>) => {
           state.status = "idle";
-          state.clubProfileData = action.payload;
-        })
+          state.clubs = action.payload;
+        }
+      )
         .addCase(getClubs.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";

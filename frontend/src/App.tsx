@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Clubs from "./pages/Clubs";
 import ClubList from "./pages/ClubList";
 import ClubGrid from "./pages/ClubGrid";
+import Calendar from "./pages/EventCalendar/Calendar"
 import DefaultLayout from "./layout/defaultLayout";
 import ProtectedLayout from "./layout/protectedLayout";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/clubs" element={<Clubs />} />
           <Route path="/clublist" element={<ClubList />} />
           <Route path="/clubgrid" element={<ClubGrid />} />
+          <Route path="/calendar" element={<Calendar />} />
         </Route>
       </Routes>
     </>

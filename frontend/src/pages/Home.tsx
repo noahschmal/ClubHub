@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { getClubs } from "../slices/clubSlice";
+import NavBar from "./components/NavBar";
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
   const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
 
-  const clubs = useAppSelector((state) => state.club.basicClubInfo);
+  const clubs = useAppSelector((state) => state.club.clubs);
 
   useEffect(() => {
     if (basicUserInfo) {
@@ -24,7 +25,8 @@ const Home = () => {
   useEffect(() => {
     dispatch(getClubs());
   }, [clubs]);
-  console.log(basicUserInfo)
+  
+  //console.log(basicUserInfo)
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -35,11 +37,12 @@ const Home = () => {
   };
 
   const handleClubs = async () => {
-    console.log(clubs?.name)
+    console.log(clubs)
   };
 
   return (
     <>
+      <NavBar />
       <h1>Home</h1>
       <h4>Name: {userProfileInfo?.name}</h4>
       <h4>Email: {userProfileInfo?.email}</h4>

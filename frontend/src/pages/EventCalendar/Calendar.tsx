@@ -12,6 +12,8 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
 
+import NavBar from "../components/NavBar";
+
 interface DemoAppState {
   weekendsVisible: boolean
   currentEvents: EventApi[]
@@ -26,6 +28,8 @@ export default class DemoApp extends React.Component<{}, DemoAppState> {
 
   render() {
     return (
+      <>
+        <NavBar />
       <div className='demo-app'>
         {this.renderSidebar()}
         <div className='demo-app-main'>
@@ -55,6 +59,7 @@ export default class DemoApp extends React.Component<{}, DemoAppState> {
           />
         </div>
       </div>
+      </>
     )
   }
 
@@ -113,7 +118,7 @@ export default class DemoApp extends React.Component<{}, DemoAppState> {
   }
 
   handleEventClick = (clickInfo: EventClickArg) => {
-    if (confirm(`Are you sure you want to delete this event?'${clickInfo.event.title}'`)) {
+    if (window.confirm(`Are you sure you want to delete this event?'${clickInfo.event.title}'`)) {
       clickInfo.event.remove()
     }
   }
