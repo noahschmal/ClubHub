@@ -37,7 +37,8 @@ const Home = () => {
   };
 
   const handleClubs = async () => {
-    console.log(clubs)
+    if (clubs)
+      console.log(clubs[0])
   };
 
   return (

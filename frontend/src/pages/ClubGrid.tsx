@@ -6,6 +6,7 @@ import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { useEffect } from 'react';
 import { getClubs } from "../slices/clubSlice";
+import { getUser } from "../slices/authSlice";
 
 
 
@@ -42,27 +43,39 @@ export interface GridData {
 function useData(rowLength: number, columnLength: number) {
   const [data, setData] = React.useState<GridData>({ columns: [], rows: [] });
 
-  const clubs = useAppSelector((state) => state.club.basicClubInfo);
+  const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
+  const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
+
+  const clubs = useAppSelector((state) => state.club.clubs);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (basicUserInfo) {
+      dispatch(getUser(basicUserInfo.id));
+    }
+  }, [basicUserInfo]);
+
   useEffect(() => {
     dispatch(getClubs());
   }, [clubs]);
 
+  let admins = useAppSelector((state) => state.auth.basicUserInfo);
+
   React.useEffect(() => {
     const rows: DataRowModel[] = [];
+    
+    if (clubs) {
+      for (let i = 0; i < clubs.length; i += 1) {
+        const row: DataRowModel = {
+          id: i,
+        };
 
-    for (let i = 0; i < rowLength; i += 1) {
-      const row: DataRowModel = {
-        id: i,
-      };
+        row['name'] = clubs[i].name;
+        row['description'] = clubs[i].description
 
-      if (clubs) {
-        row['name'] = clubs.name;
-        row['description'] = clubs.description
+        rows.push(row);
       }
-
-      rows.push(row);
     }
 
     const columns: GridColDef[] = columns_club;
