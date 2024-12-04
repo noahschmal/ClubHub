@@ -44,12 +44,12 @@ const getClub = async (req: Request, res: Response) => {
 };
 
 const getClubs = async (req: Request, res: Response) => {
-  const clubs = await Club.find();
+  const clubs = await Club.find({});
  
   if (!clubs) {
     res.status(400);
   }
- res.status(201).json(clubs);
+  res.status(201).json(clubs);
 }
 
 const addAdminToClub = async (req: Request, res: Response) => {
