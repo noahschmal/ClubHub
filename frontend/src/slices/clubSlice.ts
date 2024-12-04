@@ -69,6 +69,7 @@ export const getClubs = createAsyncThunk(
     const response = await axiosInstance.get(
       `/getClubs`
     );
+    console.log(response.data);
     return response.data;
   }
 );
