@@ -49,7 +49,7 @@ const Home = () => {
     if (clubs) {
       return clubs.map((clubs: any) => (
         <Grid2 size="auto">
-          <ClubCard name={clubs.name} description={clubs.description} user={basicUserInfo?.name}/>
+          <ClubCard name={clubs.name} description={clubs.description} user={basicUserInfo?.name} />
         </Grid2>
       ))
     }

@@ -34,7 +34,7 @@ export default function ClubCard({name, description, user}: ClubInfo) {
         </CardContent>
         <CardActions>
             <Button size="small">View</Button>
-            <Button size="small" onClick={handleLeave}>Leave</Button>
+            <Button size="small" onClick={handleLeave} color="error">Leave</Button>
         </CardActions>
         </Card>
     );
