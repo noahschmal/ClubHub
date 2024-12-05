@@ -77,9 +77,10 @@ export const getClubs = createAsyncThunk("getClubs", async () => {
   }
 );
 
-export const addToClub = createAsyncThunk("addToClub", async () => {
+export const addToClub = createAsyncThunk("addToClub", async (clubName: string, userId: string) => {
     const response = await axiosInstance.post(
       `/addToClub`
+
     );
     
     const retdata = response.data;
@@ -87,7 +88,7 @@ export const addToClub = createAsyncThunk("addToClub", async () => {
   }
 );
 
-export const addAdminToClub = createAsyncThunk("addAdminToClub", async () => {
+export const addAdminToClub = createAsyncThunk("addAdminToClub", async (clubName: string, userId: string) => {
     const response = await axiosInstance.post(
       `/addAdminToClub`
     );
