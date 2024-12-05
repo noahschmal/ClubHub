@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { getClubs } from "../slices/clubSlice";
 import NavBar from "./components/NavBar";
+import "./Home.css";
 
 
 const Account = () => {
@@ -26,9 +27,11 @@ const Account = () => {
   return (
     <>
       <NavBar />
-      <h1>Home</h1>
-      <h4>Name: {userProfileInfo?.name}</h4>
-      <h4>Email: {userProfileInfo?.email}</h4>
+      <div className='body'>
+        <h1>Home</h1>
+        <h4>Name: {userProfileInfo?.name}</h4>
+        <h4>Email: {userProfileInfo?.email}</h4>
+      </div>
     </>
   );
 };
