@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import logo from './logo.png'
 
 interface ClubInfo {
     name: String;
@@ -21,7 +22,7 @@ export default function ClubCard({name, description, user}: ClubInfo) {
         <Card sx={{ maxWidth: 345 }}>
         <CardMedia
             sx={{ height: 140 }}
-            image="./logo.png"
+            image={logo}
             title="club logo"
         />
         <CardContent>
