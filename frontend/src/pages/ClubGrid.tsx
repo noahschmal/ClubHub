@@ -36,7 +36,7 @@ function useData(rowLength: number, columnLength: number) {
   }, [clubs]);
 
   const handleJoin = (name: string) => {
-    console.log(name + " " + basicUserInfo?.name)
+    console.log(name + " " + basicUserInfo?.id)
     if (basicUserInfo)
       dispatch(addToClub({clubName: name, userId: basicUserInfo?.id}))
   }

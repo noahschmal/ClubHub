@@ -73,7 +73,7 @@ const addAdminToClub = async (req: Request, res: Response) => {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
 		return;
 	}
-	if (club[0].members.indexOf(user.name)) 
+	if (club[0].members.includes(user.name)) 
 		res.status(400).json( { message: "Already member of club"} );
 	club[0].members.push(user.name);
 	await club[0].save();
@@ -95,7 +95,7 @@ const addToClub = async (req: Request, res: Response) => {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
 		return;
 	}
-	if (club[0].members.indexOf(user.name)) 
+	if (club[0].members.includes(user.name)) 
 		res.status(400).json( { message: "Already member of club"} );
 	club[0].members.push(user.name);
 	await club[0].save();

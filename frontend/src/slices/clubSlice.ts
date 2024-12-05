@@ -145,11 +145,11 @@ const clubSlice = createSlice({
         })
         .addCase(addToClub.fulfilled, (state, action) => {
           state.status = "idle";
+          state.clubs = action.payload;
         })
         .addCase(addToClub.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
-	  console.log(state.error);
         })
 	.addCase(addAdminToClub.pending, (state) => {
           state.status = "loading";
@@ -157,11 +157,11 @@ const clubSlice = createSlice({
         })
         .addCase(addAdminToClub.fulfilled, (state, action) => {
           state.status = "idle";
+          state.clubs = action.payload;
         })
         .addCase(addAdminToClub.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
-	  console.log(state.error);
         });
     },
   });

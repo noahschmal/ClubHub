@@ -59,7 +59,6 @@ const Home = () => {
       <p>No clubs found.</p>
     )
   }
-  console.log("ONE")
 
   return (
     <>
