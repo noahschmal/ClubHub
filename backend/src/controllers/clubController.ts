@@ -12,7 +12,12 @@ const createClub = async (req: Request, res: Response) => {
     res.status(401).send({ error: "Clubs name was already taken" });
     return;
   }
-  let admins = [await User.findById(admin)];
+  let admins_exist = await User.findById(admin);
+  if (!admins_exist) {
+  	res.status(401).send({ error: "Creator was an unknown user"});
+	return;
+  }
+  let admins = admins_exist.name;
   const club = await Club.create({
     name,
     admins,
