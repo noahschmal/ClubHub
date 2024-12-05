@@ -40,6 +40,9 @@ const Home = () => {
     if (clubs)
       console.log(clubs[0])
   };
+  const handleCreateClubs = async () => {
+    navigate("/clubs")
+  };
 
   return (
     <>
@@ -49,7 +52,9 @@ const Home = () => {
       <h4>Email: {userProfileInfo?.email}</h4>
       
       <input type="text"></input>
-
+      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCreateClubs}>
+        Create Club
+      </Button>
       <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
         Get Club
       </Button>

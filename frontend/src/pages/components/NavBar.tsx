@@ -13,14 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux-hooks";
+import { logout } from "../../slices/authSlice";
+
 
 const home = ['Home'];
 const clubs = ['Clubs'];
 const calendar = ['Calendar'];
 
-const settings = ['Account', 'Logout'];
+const account = ['Account'];
+const logouts = ['Logout'];
 
 function ResponsiveAppBar() {
+    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -50,6 +56,19 @@ function ResponsiveAppBar() {
     const handleNavCalendar = () => {
         navigate("/calendar");
     }
+
+    const handleAccount = () => {
+        navigate("/account");
+    }
+
+    const handleLogout = async () => {
+        try {
+          await dispatch(logout()).unwrap();
+          navigate("/login");
+        } catch (e) {
+          console.error(e);
+        }
+      };
 
     return (
         <AppBar position="static">
@@ -188,8 +207,13 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 >
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                {account.map((setting) => (
+                    <MenuItem key={setting} onClick={handleAccount}>
+                    <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                    </MenuItem>
+                ))}
+                {logouts.map((setting) => (
+                    <MenuItem key={setting} onClick={handleLogout}>
                     <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                     </MenuItem>
                 ))}
