@@ -14,7 +14,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-
   const clubs = useAppSelector((state) => state.club.clubs);
 
   useEffect(() => {
@@ -24,7 +23,9 @@ const Home = () => {
   }, [basicUserInfo]);
 
   useEffect(() => {
-    dispatch(getClubs());
+    if(!clubs) {
+      dispatch(getClubs());
+    }
   }, [clubs]);
   
   //console.log(basicUserInfo)
@@ -58,6 +59,7 @@ const Home = () => {
       <p>No clubs found.</p>
     )
   }
+  console.log("ONE")
 
   return (
     <>
@@ -68,6 +70,9 @@ const Home = () => {
 
         <Grid2 container spacing={2}>
           <CreateClubCards />
+          <Grid2 size="auto">
+            <ClubCard name={"TEST"} description={"TEST"} user={"woowww"} />
+          </Grid2>
         </Grid2>
         
         
