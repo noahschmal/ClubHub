@@ -77,6 +77,26 @@ export const getClubs = createAsyncThunk("getClubs", async () => {
   }
 );
 
+export const addToClub = createAsyncThunk("addToClub", async (clubName: string, userId: string) => {
+    const response = await axiosInstance.post(
+      `/addToClub`
+
+    );
+    
+    const retdata = response.data;
+    return retdata;
+  }
+);
+
+export const addAdminToClub = createAsyncThunk("addAdminToClub", async (clubName: string, userId: string) => {
+    const response = await axiosInstance.post(
+      `/addAdminToClub`
+    );
+    
+    const retdata = response.data;
+    return retdata;
+  }
+);
 
 const clubSlice = createSlice({
     name: "club",
@@ -121,6 +141,30 @@ const clubSlice = createSlice({
           state.clubs = action.payload;
         })
         .addCase(getClubs.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message || "Get club data failed";
+        })
+	.addCase(addToClub.pending, (state) => {
+          state.status = "loading";
+          state.error = null;
+        })
+        .addCase(addToClub.fulfilled, (state, action) => {
+          state.status = "idle";
+          state.clubs = action.payload;
+        })
+        .addCase(addToClub.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message || "Get club data failed";
+        })
+	.addCase(addAdminToClub.pending, (state) => {
+          state.status = "loading";
+          state.error = null;
+        })
+        .addCase(addAdminToClub.fulfilled, (state, action) => {
+          state.status = "idle";
+          state.clubs = action.payload;
+        })
+        .addCase(addAdminToClub.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
         });

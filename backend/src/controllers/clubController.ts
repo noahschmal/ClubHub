@@ -60,20 +60,18 @@ const getClubs = async (req: Request, res: Response) => {
 const addAdminToClub = async (req: Request, res: Response) => {
 	const userid = req.body.userid;
 	const user = await User.findById(userid);
-	const clubid = req.body.clubid;
-	const club = await Club.findById(clubid);
-
-	if (!user) {
+		if (!user) {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nUser Not Found" } );
 		return;
 	}
+	const clubName = req.body.clubName;
+	const club = await Club.find({name: clubName});
 	if (!club) {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
 		return;
 	}
+	Club.findOneAndUpdate({name: clubName}, { $push: { admins: user.name } });
 	
-	club.admins.push(userid);
-	 
 	res.status(201);
 }
 
@@ -81,8 +79,8 @@ const addAdminToClub = async (req: Request, res: Response) => {
 const addToClub = async (req: Request, res: Response) => {
 	const userid = req.body.userid;
 	const user = await User.findById(userid);
-	const clubid = req.body.clubid;
-	const club = await Club.findById(clubid);
+	const clubName = req.body.clubName;
+	const club = await Club.find( {name: clubName} );
 
 	if (!user) {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nUser Not Found" } );
@@ -93,9 +91,13 @@ const addToClub = async (req: Request, res: Response) => {
 		return;
 	}
 	
-	club.members.push(userid);
+	Club.findOneAndUpdate({name: clubName}, { $push: { admins: user.name } });
 	 
 	res.status(201);
+}
+
+const clubByUser = async (req: Request, res: Response) => {	
+	const userid = req.body.userid;
 }
 
 export { createClub, getClub, getClubs, addAdminToClub, addToClub };
