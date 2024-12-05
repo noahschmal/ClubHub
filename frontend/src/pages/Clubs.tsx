@@ -15,6 +15,7 @@ import { createClub } from "../slices/clubSlice";
 import React, { useEffect } from "react";
 import { getUser } from "../slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import NavBar from "./components/NavBar";
 
 
 const CreateClub = () => {
@@ -54,6 +55,7 @@ const CreateClub = () => {
 
   return (
     <>
+    <NavBar/>
       <Container maxWidth="xs">
         <CssBaseline />
         <Box
