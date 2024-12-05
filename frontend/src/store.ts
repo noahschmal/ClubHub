@@ -10,6 +10,10 @@ const store = configureStore({
     user: userReducer,
     club: clubReducer
   },
+  middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware({ 
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

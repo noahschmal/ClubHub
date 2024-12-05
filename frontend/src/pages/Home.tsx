@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, Grid2 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { getClubs } from "../slices/clubSlice";
 import NavBar from "./components/NavBar";
+import ClubCard from "./components/ClubCard";
+import "./Home.css";
 
 
 const Home = () => {
@@ -12,7 +14,6 @@ const Home = () => {
   const navigate = useNavigate();
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-  const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
 
   const clubs = useAppSelector((state) => state.club.clubs);
 
@@ -38,29 +39,49 @@ const Home = () => {
 
   const handleClubs = async () => {
     if (clubs)
-      console.log(clubs[0])
+      console.log(clubs)
   };
   const handleCreateClubs = async () => {
     navigate("/clubs")
   };
 
+  const CreateClubCards = () => {
+    if (clubs) {
+      return clubs.map((clubs: any) => (
+        <Grid2 size="auto">
+          <ClubCard name={clubs.name} description={clubs.description}/>
+        </Grid2>
+      ))
+    }
+
+    return (
+      <p>No clubs found.</p>
+    )
+  }
+
   return (
     <>
       <NavBar />
-      <h1>Home</h1>
-      <h4>Name: {userProfileInfo?.name}</h4>
-      <h4>Email: {userProfileInfo?.email}</h4>
-      
-      <input type="text"></input>
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCreateClubs}>
-        Create Club
-      </Button>
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
-        Get Club
-      </Button>
-      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
-        Logout
-      </Button>
+      <div className='body'>
+        <h1>Home</h1>
+        <h4>My Clubs</h4>
+
+        <Grid2 container spacing={2}>
+          <CreateClubCards />
+        </Grid2>
+        
+        
+        <input type="text"></input>
+        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCreateClubs}>
+          Create Club
+        </Button>
+        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
+          Get Club
+        </Button>
+        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
     </>
   );
 };

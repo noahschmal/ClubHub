@@ -37,13 +37,20 @@ const initialState: AuthApiState = {
   error: null,
 };
 
-export const login = createAsyncThunk("login", async (data: User) => {
-  const response = await axiosInstance.post("/login", data);
-  const resData = response.data;
+export const login = createAsyncThunk("login", async (data: User, thunkAPI) => {
+  return await axiosInstance.post("/login", data).then(function(response) {
+      const resData = response.data;
+  
+      localStorage.setItem("userInfo", JSON.stringify(resData));
+    
+      return thunkAPI.fulfillWithValue(resData);
+ 
+    }).catch(function (e) {
+      console.log("This is not an issue");
+      return thunkAPI.rejectWithValue(e);
+    });
+  return thunkAPI.rejectWithValue("IT FUCKED UP");
 
-  localStorage.setItem("userInfo", JSON.stringify(resData));
-
-  return resData;
 });
 
 export const register = createAsyncThunk("register", async (data: NewUser) => {
@@ -88,17 +95,18 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(
-        login.fulfilled,
-        (state, action: PayloadAction<UserBasicInfo>) => {
+	login.fulfilled,
+        (state, action) => {
           state.status = "idle";
           state.basicUserInfo = action.payload;
+
         }
       )
       .addCase(login.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message || "Login failed";
-      })
-
+          state.status = "failed";
+	  console.log(action);
+          state.error = action.error.message || "CreateClub failed";
+        })
       .addCase(register.pending, (state) => {
         state.status = "loading";
         state.error = null;

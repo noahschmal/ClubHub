@@ -73,10 +73,8 @@ function useData(rowLength: number, columnLength: number) {
 
         row['name'] = clubs[i].name;
         row['description'] = clubs[i].description
-
-        console.log(clubs[i].admins[0])
-
         row['admins'] = clubs[i].admins
+        row['members'] = clubs[i].members
 
         rows.push(row);
       }

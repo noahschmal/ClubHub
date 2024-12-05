@@ -9,9 +9,15 @@ const createClub = async (req: Request, res: Response) => {
   const clubNameTaken = await Club.findOne({ name });
   
   if (clubNameTaken) {
-    res.status(400).json({ message: "Clubs name was already taken" });
+    res.status(401).send({ error: "Clubs name was already taken" });
+    return;
   }
-  let admins = admin;
+  let admins_exist = await User.findById(admin);
+  if (!admins_exist) {
+  	res.status(401).send({ error: "Creator was an unknown user"});
+	return;
+  }
+  let admins = admins_exist.name;
   const club = await Club.create({
     name,
     admins,
@@ -43,12 +49,12 @@ const getClub = async (req: Request, res: Response) => {
 };
 
 const getClubs = async (req: Request, res: Response) => {
-  const clubs = await Club.find();
+  const clubs = await Club.find({});
  
   if (!clubs) {
     res.status(400);
   }
- res.status(201).json(clubs);
+  res.status(201).json(clubs);
 }
 
 const addAdminToClub = async (req: Request, res: Response) => {
