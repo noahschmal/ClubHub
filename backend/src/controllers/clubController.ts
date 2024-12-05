@@ -63,7 +63,7 @@ const getClubs = async (req: Request, res: Response) => {
 const addAdminToClub = async (req: Request, res: Response) => {
 	const userid = req.body.userid;
 	const user = await User.findById(userid);
-		if (!user) {
+	if (!user) {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nUser Not Found" } );
 		return;
 	}
@@ -73,18 +73,20 @@ const addAdminToClub = async (req: Request, res: Response) => {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
 		return;
 	}
-	Club.findOneAndUpdate({name: clubName}, { $push: { admins: user.name, members: user.name} });
-	
+	if (club[0].members.indexOf(user.name)) 
+		res.status(400).json( { message: "Already member of club"} );
+	club[0].members.push(user.name);
+	await club[0].save();
 	res.status(201);
+	return;
 }
 
 
 const addToClub = async (req: Request, res: Response) => {
-	const userid = req.body.userid;
+	const userid = req.body.userId;
 	const user = await User.findById(userid);
 	const clubName = req.body.clubName;
 	const club = await Club.find( {name: clubName} );
-
 	if (!user) {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nUser Not Found" } );
 		return;
@@ -93,14 +95,16 @@ const addToClub = async (req: Request, res: Response) => {
 		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
 		return;
 	}
-	
-	Club.findOneAndUpdate({name: clubName}, { $push: { members: user.name } });
-	 
+	if (club[0].members.indexOf(user.name)) 
+		res.status(400).json( { message: "Already member of club"} );
+	club[0].members.push(user.name);
+	await club[0].save();
 	res.status(201);
+	return;
 }
 
 const clubByUser = async (req: Request, res: Response) => {	
-	const userid = req.body.userid;
+	const userid = req.body.userId;
 	const user = await User.findById(userid);
 	if (!user) {
 		res.status(401).json( { message: "An error has occured while finding the user"} );
@@ -114,6 +118,7 @@ const clubByUser = async (req: Request, res: Response) => {
 	}
 
 	res.status(201).json(clubs);
+	return;
 }
 
 export { createClub, getClub, getClubs, addAdminToClub, addToClub, clubByUser };
