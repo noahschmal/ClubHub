@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { useEffect } from 'react';
-import { getClubs } from "../slices/clubSlice";
+import { addToClub, getClubs } from "../slices/clubSlice";
 import { getUser } from "../slices/authSlice";
 
 export interface DataRowModel {
@@ -37,6 +37,8 @@ function useData(rowLength: number, columnLength: number) {
 
   const handleJoin = (name: string) => {
     console.log(name + " " + basicUserInfo?.name)
+    if (basicUserInfo)
+      dispatch(addToClub({clubName: name, userId: basicUserInfo?.id}))
   }
   
 
