@@ -37,17 +37,23 @@ const initialState: AuthApiState = {
 };
 
 
-export const createClub = createAsyncThunk("createClub", async (data: Club) => {
-    const response = await axiosInstance.post(
+export const createClub = createAsyncThunk("createClub", async (data: Club, thunkAPI) => {
+    return await axiosInstance.post(
       "/createClub",
       data
-    );
-    const resData = response.data;
+    ).then(function(response) {
+      const resData = response.data;
   
-    localStorage.setItem("clubInfo", JSON.stringify(resData));
-  
-    return resData;
-  });
+      localStorage.setItem("clubInfo", JSON.stringify(resData));
+    
+      return thunkAPI.fulfillWithValue(resData);
+ 
+    }).catch(function (e) {
+      console.log("This is not an issue");
+      return thunkAPI.rejectWithValue(e);
+    });
+    return thunkAPI.rejectWithValue("IT FUCKED UP");
+});
 
 export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) => {
     const response = await axiosInstance.post(
@@ -84,13 +90,14 @@ const clubSlice = createSlice({
         })
         .addCase(
             createClub.fulfilled,
-          (state, action: PayloadAction<ClubBasicInfo>) => {
+          (state, action) => {
             state.status = "idle";
             state.basicClubInfo = action.payload;
-          }
+	  }
         )
         .addCase(createClub.rejected, (state, action) => {
           state.status = "failed";
+	  console.log(action);
           state.error = action.error.message || "CreateClub failed";
         })
         .addCase(getClub.pending, (state) => {
