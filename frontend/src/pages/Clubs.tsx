@@ -10,7 +10,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createClub } from "../slices/clubSlice";
 import React, { useEffect } from "react";
 import { getUser } from "../slices/authSlice";
@@ -23,6 +23,7 @@ function hasProperty(obj: unknown, prop: string): boolean {
 
 const CreateClub = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -48,6 +49,7 @@ const CreateClub = () => {
             description,
           })
         ).unwrap();
+        navigate("/")
       } catch (e) {
       	const response = (e as { code: any, config: any, message: any, name: any, request: any, response: any, status: any }).response;
 	const data = (response as { config: any, data: any, headers: any, request: any, status: any, statusText: any }).data;

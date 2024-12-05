@@ -9,28 +9,33 @@ import Typography from '@mui/material/Typography';
 interface ClubInfo {
     name: String;
     description: String;
+    user: String | undefined;
 }
 
-export default function ClubCard({name, description}: ClubInfo) {
-  return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
-        title="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-            {name}
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {description}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">View</Button>
-        <Button size="small" color="error">Leave</Button>
-      </CardActions>
-    </Card>
-  );
+export default function ClubCard({name, description, user}: ClubInfo) {
+    const handleLeave = () => {
+        console.log(name + " " + user)
+    }
+
+    return (
+        <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+            sx={{ height: 140 }}
+            image="./logo.png"
+            title="club logo"
+        />
+        <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+                {name}
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {description}
+            </Typography>
+        </CardContent>
+        <CardActions>
+            <Button size="small">View</Button>
+            <Button size="small" onClick={handleLeave} color="error">Leave</Button>
+        </CardActions>
+        </Card>
+    );
 }
