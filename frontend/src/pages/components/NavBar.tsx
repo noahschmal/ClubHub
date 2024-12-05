@@ -58,7 +58,7 @@ function ResponsiveAppBar() {
     }
 
     const handleAccount = () => {
-        navigate("/");
+        navigate("/account");
     }
 
     const handleLogout = async () => {
