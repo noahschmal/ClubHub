@@ -5,30 +5,8 @@ import NavBar from "./components/NavBar";
 import { Button, Stack } from '@mui/material';
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { useEffect } from 'react';
-import { getClubs } from "../slices/clubSlice";
+import { addToClub, getClubs } from "../slices/clubSlice";
 import { getUser } from "../slices/authSlice";
-
-
-
-const handleJoin = (row: GridRowParams) => {
-  console.log(row)
-}
-
-const columns_club: GridColDef[] = [
-  { field: 'name', headerName: 'Name', width: 180, editable: true },
-  { field: 'description', headerName: 'Description', width: 180, editable: true },
-  { field: 'admins', headerName: 'Admins', width: 180, editable: false },
-  { field: 'members', headerName: 'Members', width: 180, editable: false },
-  {
-    field: "join",
-    headerName: "",
-    sortable: false,
-    renderCell: ({ row }: Partial<GridRowParams>) =>
-      <Button onClick={() => handleJoin(row)}>
-        Join
-      </Button>,
-  },
-];
 
 export interface DataRowModel {
   id: GridRowId;
@@ -39,13 +17,10 @@ export interface GridData {
   columns: GridColDef[];
   rows: DataRowModel[];
 }
-
 function useData(rowLength: number, columnLength: number) {
   const [data, setData] = React.useState<GridData>({ columns: [], rows: [] });
-
+  
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-  const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
-
   const clubs = useAppSelector((state) => state.club.clubs);
 
   const dispatch = useAppDispatch();
@@ -59,6 +34,13 @@ function useData(rowLength: number, columnLength: number) {
   useEffect(() => {
     dispatch(getClubs());
   }, [clubs]);
+
+  const handleJoin = (name: string) => {
+    console.log(name + " " + basicUserInfo?.name)
+    if (basicUserInfo)
+      dispatch(addToClub({clubName: name, userId: basicUserInfo?.id}))
+  }
+  
 
   let admins = useAppSelector((state) => state.auth.basicUserInfo);
 
@@ -80,7 +62,21 @@ function useData(rowLength: number, columnLength: number) {
       }
     }
 
-    const columns: GridColDef[] = columns_club;
+    const columns: GridColDef[] = [
+      { field: 'name', headerName: 'Name', width: 180, editable: true },
+      { field: 'description', headerName: 'Description', width: 180, editable: true },
+      { field: 'admins', headerName: 'Admins', width: 180, editable: false },
+      { field: 'members', headerName: 'Members', width: 180, editable: false },
+      {
+        field: "join",
+        headerName: "",
+        sortable: false,
+        renderCell: ({ row }: Partial<GridRowParams>) =>
+          <Button onClick={() => handleJoin(row['name'])}>
+            Join
+          </Button>,
+      },
+    ];
 
     setData({
       rows,

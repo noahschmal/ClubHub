@@ -49,7 +49,7 @@ const Home = () => {
     if (clubs) {
       return clubs.map((clubs: any) => (
         <Grid2 size="auto">
-          <ClubCard name={clubs.name} description={clubs.description}/>
+          <ClubCard name={clubs.name} description={clubs.description} user={basicUserInfo?.name} />
         </Grid2>
       ))
     }
@@ -71,7 +71,6 @@ const Home = () => {
         </Grid2>
         
         
-        <input type="text"></input>
         <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCreateClubs}>
           Create Club
         </Button>

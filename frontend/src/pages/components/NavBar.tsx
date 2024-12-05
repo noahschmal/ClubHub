@@ -13,8 +13,9 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TripOriginIcon  from '@mui/icons-material/TripOrigin';
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/redux-hooks";
-import { logout } from "../../slices/authSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { getUser, logout } from "../../slices/authSlice";
+import { useEffect } from 'react';
 
 
 const home = ['Home'];
@@ -26,6 +27,14 @@ const logouts = ['Logout'];
 
 function ResponsiveAppBar() {
     const dispatch = useAppDispatch();
+
+    const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
+
+    useEffect(() => {
+        if (basicUserInfo) {
+        dispatch(getUser(basicUserInfo.id));
+        }
+    }, [basicUserInfo]);
 
     const navigate = useNavigate();
 
@@ -69,6 +78,44 @@ function ResponsiveAppBar() {
           console.error(e);
         }
       };
+
+      function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+      
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+          hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+      
+        let color = '#';
+      
+        for (i = 0; i < 3; i += 1) {
+          const value = (hash >> (i * 8)) & 0xff;
+          color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+      
+        return color;
+      }
+
+      function stringAvatar(name: string | undefined) {
+        if (name) {
+            return {
+            sx: {
+                bgcolor: stringToColor(name),
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            };
+        }
+        name = "~"
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            };
+      }
 
     return (
         <AppBar position="static">
@@ -188,7 +235,7 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    <Avatar {...stringAvatar(basicUserInfo?.name)} />
                 </IconButton>
                 </Tooltip>
                 <Menu
