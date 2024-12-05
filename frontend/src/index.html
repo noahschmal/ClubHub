@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Notification</title>
+</head>
+<body>
+  <h1>Email Notification System</h1>
+  <button id="sendEmailButton">Send Event Emails</button>
+
+  <script>
+    document.getElementById('sendEmailButton').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          alert('Emails sent successfully!');
+        } else {
+          alert('Failed to send emails.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred.');
+      }
+    });
+  </script>
+</body>
+</html>

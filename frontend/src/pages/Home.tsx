@@ -3,7 +3,8 @@ import { Button } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { getClub } from "../slices/clubSlice";
+import { getClubs } from "../slices/clubSlice";
+import NavBar from "./components/NavBar";
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
   const userProfileInfo = useAppSelector((state) => state.auth.userProfileData);
 
-  const clubs = useAppSelector((state) => state.club.basicClubInfo);
+  const clubs = useAppSelector((state) => state.club.clubs);
 
   useEffect(() => {
     if (basicUserInfo) {
@@ -22,9 +23,10 @@ const Home = () => {
   }, [basicUserInfo]);
 
   useEffect(() => {
-    dispatch(getClub("673ad18d4f97e62a4a7b1ebc"));
+    dispatch(getClubs());
   }, [clubs]);
-
+  
+  //console.log(basicUserInfo)
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -35,17 +37,24 @@ const Home = () => {
   };
 
   const handleClubs = async () => {
-    console.log(clubs?.name)
+    if (clubs)
+      console.log(clubs[0])
+  };
+  const handleCreateClubs = async () => {
+    navigate("/clubs")
   };
 
   return (
     <>
+      <NavBar />
       <h1>Home</h1>
       <h4>Name: {userProfileInfo?.name}</h4>
       <h4>Email: {userProfileInfo?.email}</h4>
       
       <input type="text"></input>
-
+      <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCreateClubs}>
+        Create Club
+      </Button>
       <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleClubs}>
         Get Club
       </Button>

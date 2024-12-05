@@ -15,6 +15,7 @@ import { createClub } from "../slices/clubSlice";
 import React, { useEffect } from "react";
 import { getUser } from "../slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
+import NavBar from "./components/NavBar";
 
 function hasProperty(obj: unknown, prop: string): boolean {
   return typeof obj === 'object' && obj !== null && prop in obj;
@@ -60,6 +61,7 @@ const CreateClub = () => {
 
   return (
     <>
+    <NavBar/>
       <Container maxWidth="xs">
         <CssBaseline />
         <Box

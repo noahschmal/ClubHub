@@ -21,6 +21,7 @@ type ClubProfileData = {
 type AuthApiState = {
   basicClubInfo?: ClubBasicInfo | null;
   clubProfileData?: ClubProfileData | null;
+  clubs?: any | null;
   status: "idle" | "loading" | "failed";
   error: string | null;
 };
@@ -59,18 +60,20 @@ export const getClub = createAsyncThunk("clubs/profile", async (clubId: string) 
       `/getClub`,
       {id: clubId}
     );
+
+    //console.log(response.data)
     return response.data;
   }
 );
 
-export const getClubs = createAsyncThunk(
-  "/clubs",
-  async () => {
-    const response = await axiosInstance.get(
+export const getClubs = createAsyncThunk("getClubs", async () => {
+    const response = await axiosInstance.post(
       `/getClubs`
     );
-    console.log(response.data);
-    return response.data;
+    
+    const retdata = response.data;
+    localStorage.setItem("clubs", JSON.stringify(retdata));
+    return retdata;
   }
 );
 
@@ -115,7 +118,7 @@ const clubSlice = createSlice({
         })
         .addCase(getClubs.fulfilled, (state, action) => {
           state.status = "idle";
-          state.clubProfileData = action.payload;
+          state.clubs = action.payload;
         })
         .addCase(getClubs.rejected, (state, action) => {
           state.status = "failed";
