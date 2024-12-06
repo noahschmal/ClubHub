@@ -108,15 +108,45 @@ const addToClub = async (req: Request, res: Response) => {
 	return;
 }
 
+const removeFromClub = async (req: Request, res: Response) => {
+	const userid = req.body.userId;
+	const user = await User.findById(userid);
+	const clubName = req.body.clubName;
+	const club = await Club.find( {name: clubName} );
+	if (!user) {
+		res.status(400).json( { message: "An error has occured while adding a user to the club\nUser Not Found" } );
+		return;
+	}
+	if (!club) {
+		res.status(400).json( { message: "An error has occured while adding a user to the club\nClub Not Found" } );
+		return;
+	}
+	if (!club[0].members.includes(user.name)) {
+		res.status(400).json( { message: "Already member of club"} );
+		return;
+	}
+
+
+	club[0].members.splice(club[0].members.findIndex(name => name === user.name), 1);
+
+	if(club[0].admins.includes(user.name)) {
+		club[0].admins.splice(club[0].admins.findIndex(name => name === user.name), 1);
+	}
+	
+	await club[0].save();
+	res.status(201);
+	return;
+}
+
 const clubByUser = async (req: Request, res: Response) => {	
 	const userid = req.body.userId;
 	const user = await User.findById(userid);
+
 	if (!user) {
 		res.status(401).json( { message: "An error has occured while finding the user"} );
 		return;
 	}
-	const username = User.name;
-	const clubs = await Club.find( {users: username} ); 
+	const clubs = await Club.find( {members: user.name} );
 	if (!clubs) {
 		res.status(401).json( {message: "No clubs found with this user"} );
 		return;
@@ -126,7 +156,7 @@ const clubByUser = async (req: Request, res: Response) => {
 	return;
 }
 
-export { createClub, getClub, getClubs, addAdminToClub, addToClub, clubByUser };
+export { createClub, getClub, getClubs, addAdminToClub, addToClub, removeFromClub, clubByUser };
 
 
 

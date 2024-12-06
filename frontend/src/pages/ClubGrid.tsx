@@ -17,7 +17,7 @@ export interface GridData {
   columns: GridColDef[];
   rows: DataRowModel[];
 }
-function useData(rowLength: number, columnLength: number) {
+function useData() {
   const [data, setData] = React.useState<GridData>({ columns: [], rows: [] });
   
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
@@ -36,9 +36,9 @@ function useData(rowLength: number, columnLength: number) {
   }, [clubs]);
 
   const handleJoin = (name: string) => {
-    console.log(name + " " + basicUserInfo?.name)
     if (basicUserInfo)
       dispatch(addToClub({clubName: name, userId: basicUserInfo?.id}))
+      window.location.reload();
   }
   
 
@@ -82,19 +82,19 @@ function useData(rowLength: number, columnLength: number) {
       rows,
       columns,
     });
-  }, [rowLength, columnLength]);
+  }, []);
 
   return data;
 }
 
 export default function ClubGrid() {
 
-  const data = useData(100, 3);
+  const data = useData();
 
   return (
     <>
      <NavBar />
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 800, width: '100%' }}>
       <DataGrid {...data} columnBufferPx={100} />
     </div>
     </>

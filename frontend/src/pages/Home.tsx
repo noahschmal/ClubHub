@@ -3,7 +3,7 @@ import { Button, Grid2 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux-hooks";
 import { getUser, logout } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { getClubs } from "../slices/clubSlice";
+import { clubByUser } from "../slices/clubSlice";
 import NavBar from "./components/NavBar";
 import ClubCard from "./components/ClubCard";
 import "./Home.css";
@@ -14,7 +14,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const basicUserInfo = useAppSelector((state) => state.auth.basicUserInfo);
-  const clubs = useAppSelector((state) => state.club.clubs);
+  const clubs = useAppSelector((state) => state.club.myclubs);
 
   useEffect(() => {
     if (basicUserInfo) {
@@ -23,8 +23,9 @@ const Home = () => {
   }, [basicUserInfo]);
 
   useEffect(() => {
-    if(!clubs) {
-      dispatch(getClubs());
+    if(!clubs && basicUserInfo) {
+      console.log(basicUserInfo.id)
+      dispatch(clubByUser({userId: basicUserInfo.id}));
     }
   }, [clubs]);
   
@@ -47,10 +48,10 @@ const Home = () => {
   };
 
   const CreateClubCards = () => {
-    if (clubs) {
+    if (clubs && basicUserInfo) {
       return clubs.map((clubs: any) => (
         <Grid2 size="auto">
-          <ClubCard name={clubs.name} description={clubs.description} user={basicUserInfo?.name} />
+          <ClubCard name={clubs.name} description={clubs.description} id={basicUserInfo.id} />
         </Grid2>
       ))
     }
@@ -59,7 +60,6 @@ const Home = () => {
       <p>No clubs found.</p>
     )
   }
-  console.log("ONE")
 
   return (
     <>
@@ -70,9 +70,6 @@ const Home = () => {
 
         <Grid2 container spacing={2}>
           <CreateClubCards />
-          <Grid2 size="auto">
-            <ClubCard name={"TEST"} description={"TEST"} user={"woowww"} />
-          </Grid2>
         </Grid2>
         
         

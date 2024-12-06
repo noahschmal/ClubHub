@@ -22,6 +22,7 @@ type AuthApiState = {
   basicClubInfo?: ClubBasicInfo | null;
   clubProfileData?: ClubProfileData | null;
   clubs?: any | null;
+  myclubs?: any | null;
   status: "idle" | "loading" | "failed";
   error: string | null;
 };
@@ -70,7 +71,6 @@ export const getClubs = createAsyncThunk("getClubs", async () => {
     const response = await axiosInstance.post(
       `/getClubs`
     );
-    
     const retdata = response.data;
     localStorage.setItem("clubs", JSON.stringify(retdata));
     return retdata;
@@ -85,12 +85,31 @@ export const addToClub = createAsyncThunk("addToClub", async (data: {clubName: s
   }
 );
 
+export const removeFromClub = createAsyncThunk("removeFromClub", async (data: {clubName: string, userId: string}) => {
+  const response = await axiosInstance.post(
+    `/removeFromClub`,
+    data,
+  );
+}
+);
+
 export const addAdminToClub = createAsyncThunk("addAdminToClub", async (data: {clubName: string, userId: string}) => {
     const response = await axiosInstance.post(
       `/addAdminToClub`,
       data,
     );
   }
+);
+
+export const clubByUser = createAsyncThunk("clubByUser", async (data: {userId: string}) => {
+  const response = await axiosInstance.post(
+    `/clubByUser`,
+    data,
+  );
+  const retdata = response.data;
+  localStorage.setItem("clubs", JSON.stringify(retdata));
+  return retdata;
+}
 );
 
 const clubSlice = createSlice({
@@ -108,11 +127,10 @@ const clubSlice = createSlice({
           (state, action) => {
             state.status = "idle";
             state.basicClubInfo = action.payload;
-	  }
-        )
+	      })
         .addCase(createClub.rejected, (state, action) => {
           state.status = "failed";
-	  console.log(action);
+	        console.log(action);
           state.error = action.error.message || "CreateClub failed";
         })
         .addCase(getClub.pending, (state) => {
@@ -139,29 +157,53 @@ const clubSlice = createSlice({
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
         })
-	.addCase(addToClub.pending, (state) => {
+	      .addCase(addToClub.pending, (state) => {
           state.status = "loading";
           state.error = null;
         })
         .addCase(addToClub.fulfilled, (state, action) => {
           state.status = "idle";
+          state.clubs = action.payload;
         })
         .addCase(addToClub.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
-	  console.log(state.error);
         })
-	.addCase(addAdminToClub.pending, (state) => {
+        .addCase(removeFromClub.pending, (state) => {
+          state.status = "loading";
+          state.error = null;
+        })
+        .addCase(removeFromClub.fulfilled, (state, action) => {
+          state.status = "idle";
+          state.clubs = action.payload;
+        })
+        .addCase(removeFromClub.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message || "Get club data failed";
+        })
+	      .addCase(addAdminToClub.pending, (state) => {
           state.status = "loading";
           state.error = null;
         })
         .addCase(addAdminToClub.fulfilled, (state, action) => {
           state.status = "idle";
+          state.clubs = action.payload;
         })
         .addCase(addAdminToClub.rejected, (state, action) => {
           state.status = "failed";
           state.error = action.error.message || "Get club data failed";
-	  console.log(state.error);
+        })
+        .addCase(clubByUser.pending, (state) => {
+          state.status = "loading";
+          state.error = null;
+        })
+        .addCase(clubByUser.fulfilled, (state, action) => {
+          state.status = "idle";
+          state.myclubs = action.payload;
+        })
+        .addCase(clubByUser.rejected, (state, action) => {
+          state.status = "failed";
+          state.error = action.error.message || "Get club data failed";
         });
     },
   });

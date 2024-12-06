@@ -5,6 +5,7 @@ import {
 	getClubs,
 	addAdminToClub,
 	addToClub,
+	removeFromClub,
 	clubByUser,
 } from "../controllers/clubController";
 
@@ -14,7 +15,8 @@ router.post("/createClub", createClub);
 router.post("/getClub", getClub);
 router.post("/getClubs", getClubs);
 router.post("/addToClub", addToClub);
+router.post("/removeFromClub", removeFromClub);
 router.post("/addAdminToClub", addAdminToClub);
-//router.post("/clubByUser". clubByUser);
+router.post("/clubByUser", clubByUser);
 
 export default router;
