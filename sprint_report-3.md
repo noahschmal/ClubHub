@@ -39,6 +39,11 @@ Here are links to the issues that we completed in this sprint:
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
  * [clubSlice.ts](https://github.com/noahschmal/ClubHub/blob/main/frontend/src/slices/clubSlice.ts)
+ * [authSlice.ts](https://github.com/noahschmal/ClubHub/blob/main/frontend/src/slices/authSlice.ts)
+ * [eventRouter.ts](https://github.com/noahschmal/ClubHub/blob/main/backend/src/router/eventRouter.ts)
+ * [clubRouter.ts](https://github.com/noahschmal/ClubHub/blob/main/backend/src/router/clubRouter.ts)
+ * [clubController.ts](https://github.com/noahschmal/ClubHub/blob/main/backend/src/controllers/clubController.ts)
+ * [authController.ts](https://github.com/noahschmal/ClubHub/blob/main/backend/src/controllers/authController.ts)
  * [ClubCard.tsx](https://github.com/noahschmal/ClubHub/blob/main/frontend/src/pages/components/ClubCard.tsx)
  * [NavBar.tsx](https://github.com/noahschmal/ClubHub/blob/main/frontend/src/pages/components/ClubCard.tsx)
  * [Account.tsx](https://github.com/noahschmal/ClubHub/blob/main/frontend/src/pages/Account.tsx)
