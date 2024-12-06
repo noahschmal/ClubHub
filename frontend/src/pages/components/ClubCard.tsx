@@ -6,20 +6,27 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import logo from './logo.png'
+import { removeFromClub } from "../../slices/clubSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useState } from "react";
 
 interface ClubInfo {
-    name: String;
-    description: String;
-    user: String | undefined;
+    name: string;
+    description: string;
+    id: string;
 }
 
-export default function ClubCard({name, description, user}: ClubInfo) {
+export default function ClubCard({name, description, id}: ClubInfo) {
+    const dispatch = useAppDispatch();
+
+    const [Count, setCount] = useState(0);
     const handleLeave = () => {
-        console.log(name + " " + user)
+        dispatch(removeFromClub({clubName: name, userId: id}));
+        window.location.reload();
     }
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: 245 }}>
         <CardMedia
             sx={{ height: 140 }}
             image={logo}

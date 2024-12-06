@@ -32,7 +32,7 @@ function ResponsiveAppBar() {
 
     useEffect(() => {
         if (basicUserInfo) {
-        dispatch(getUser(basicUserInfo.id));
+            dispatch(getUser(basicUserInfo.id));
         }
     }, [basicUserInfo]);
 
